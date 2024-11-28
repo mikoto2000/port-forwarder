@@ -83,6 +83,7 @@ func main() {
 		Usage:                  "指定されたアドレス間でポートフォワーディングを行います",
 		Version:                version,
 		UseShortOptionHandling: true,
+		HideHelpCommand:        true,
 		Flags: []cli.Flag{
 			&cli.BoolFlag{
 				Name:               flagNameLicense,
@@ -93,15 +94,15 @@ func main() {
 			&cli.StringFlag{
 				Name: "source",
 				// source, local
-				Aliases: []string{"s", "l"},
-				Usage:   "source port. (ex: 127.0.0.1:8080)",
+				Aliases:  []string{"s", "l"},
+				Usage:    "source port. (ex: 127.0.0.1:8080)",
 				Required: true,
 			},
 			&cli.StringFlag{
 				Name: "destination",
 				// destination, forward
-				Aliases: []string{"d", "f"},
-				Usage:   "destination port. (ex: example.com:443)",
+				Aliases:  []string{"d", "f"},
+				Usage:    "destination port. (ex: example.com:443)",
 				Required: true,
 			},
 		},
