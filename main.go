@@ -2,12 +2,12 @@ package main
 
 import (
 	_ "embed"
-	"errors"
 	"fmt"
 	"io"
 	"log"
 	"net"
 	"os"
+	"slices"
 
 	"github.com/urfave/cli/v2"
 )
@@ -68,6 +68,16 @@ func startForwarding(listenAddr, forwardAddr string) {
 }
 
 func main() {
+
+	// --license の存在確認
+	if slices.Contains(os.Args, "--license") || slices.Contains(os.Args, "-license") {
+		// ライセンスフラグが立っていればライセンスを表示して終了
+		fmt.Println(license)
+		fmt.Println()
+		fmt.Println(notice)
+		return
+	}
+
 	app := &cli.App{
 		Name:                   "port-forwarder",
 		Usage:                  "指定されたアドレス間でポートフォワーディングを行います",
@@ -85,33 +95,21 @@ func main() {
 				// source, local
 				Aliases: []string{"s", "l"},
 				Usage:   "source port. (ex: 127.0.0.1:8080)",
+				Required: true,
 			},
 			&cli.StringFlag{
 				Name: "destination",
 				// destination, forward
 				Aliases: []string{"d", "f"},
 				Usage:   "destination port. (ex: example.com:443)",
+				Required: true,
 			},
 		},
 		Action: func(c *cli.Context) error {
 
-			// ライセンスフラグが立っていればライセンスを表示して終
-			if c.Bool(flagNameLicense) {
-				fmt.Println(license)
-				fmt.Println()
-				fmt.Println(notice)
-				return nil
-			}
-
 			// リッスンアドレスと転送先アドレスを取得
 			listenAddr := c.String("source")
 			forwardAddr := c.String("destination")
-
-			// 必須オプションの確認
-			if listenAddr == "" || forwardAddr == "" {
-				cli.ShowAppHelp(c)
-				return errors.New("Required flags \"source or destination\" not set")
-			}
 
 			// ポートフォワーディングを開始
 			startForwarding(listenAddr, forwardAddr)
