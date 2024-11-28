@@ -60,22 +60,24 @@ func main() {
 		Usage: "指定されたアドレス間でポートフォワーディングを行います",
 		Flags: []cli.Flag{
 			&cli.StringFlag{
-				Name:     "listen",
-				Aliases:  []string{"l"},
-				Usage:    "リッスンするアドレスとポート (例: 127.0.0.1:8080)",
+				Name:     "source",
+				// source, local
+				Aliases:  []string{"s", "l"},
+				Usage:    "source port. (ex: 127.0.0.1:8080)",
 				Required: true,
 			},
 			&cli.StringFlag{
-				Name:     "forward",
-				Aliases:  []string{"f"},
-				Usage:    "転送先のアドレスとポート (例: example.com:443)",
+				Name:     "destination",
+				// destination, forward
+				Aliases:  []string{"d", "f"},
+				Usage:    "destination port. (ex: example.com:443)",
 				Required: true,
 			},
 		},
 		Action: func(c *cli.Context) error {
 			// リッスンアドレスと転送先アドレスを取得
-			listenAddr := c.String("listen")
-			forwardAddr := c.String("forward")
+			listenAddr := c.String("source")
+			forwardAddr := c.String("destination")
 
 			// ポートフォワーディングを開始
 			startForwarding(listenAddr, forwardAddr)
