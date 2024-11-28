@@ -9,6 +9,8 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
+var version string
+
 // ポートフォワーディングの主処理を行う。
 // 転送先・転送元のデータ通信をリレーする。
 func forward(src net.Conn, dstAddr string) {
@@ -58,6 +60,7 @@ func main() {
 	app := &cli.App{
 		Name:  "port-forwarder",
 		Usage: "指定されたアドレス間でポートフォワーディングを行います",
+		Version: version,
 		Flags: []cli.Flag{
 			&cli.StringFlag{
 				Name:     "source",
