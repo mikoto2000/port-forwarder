@@ -52,7 +52,10 @@ func startForwarding(listenAddr, forwardAddr string) {
 	}
 	defer listener.Close()
 
-	log.Printf("リッスン中: %s -> %s\n", listenAddr, forwardAddr)
+	listenIP := listener.Addr().(*net.TCPAddr).IP
+	listenPort := listener.Addr().(*net.TCPAddr).Port
+	log.Printf("リッスン中: %s:%d -> %s\n", listenIP, listenPort, forwardAddr)
+	fmt.Println(listenPort)
 
 	for {
 		// listen 開始
