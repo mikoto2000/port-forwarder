@@ -13,7 +13,7 @@ USAGE:
    port-forwarder [global options]
 
 VERSION:
-   1.0.0
+   1.1.0
 
 GLOBAL OPTIONS:
    --license                                show licensesa.
